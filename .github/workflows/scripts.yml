@@ -1,0 +1,46 @@
+name: Scripts
+
+on:
+  push:
+    paths:
+      - "demos/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out public archives repository
+        uses: actions/checkout@v4
+
+      - name: Check out private scripts repository
+        uses: actions/checkout@v4
+        with:
+          repository: produke3d/scripts
+          ref: main
+          token: ${{ secrets.SCRIPTS_TOKEN }}
+          path: scripts
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Process demos
+        run: node scripts/process-demos.js
+
+      - name: Commit Database and Metadata
+        run: |
+          git add -- "*.gzip" "demos/metadata/*.gzip"
+          if git diff --cached --quiet; then
+            echo "Database and Metadata are already up to date."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Update Database and Metadata"
+            git push
+          fi
