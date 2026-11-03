@@ -1,18 +1,27 @@
 name: Demo Notification Event
 
 on:
-  repository_dispatch:
-    types: [demo-notification-event]
 
-permissions:
-  contents: write
+  workflow_dispatch:
+
+    inputs:
+
+      sender:
+        description: "Notification sender (e.g., 'nukemnet' or 'atomiclauncher')"
+        required: true
+        type: string
+
+      demos:
+        description: "JSON array containing demo filenames"
+        required: true
+        type: string
 
 jobs:
 
-  update-database:
+  demo-notification-event:
 
     runs-on: ubuntu-latest
-    
+
     steps:
 
       - name: Check out private scripts repository
@@ -30,19 +39,4 @@ jobs:
           node-version: 20
 
       - name: Handle External Notification Event
-        run: node scripts/process-demos.js '${{ toJSON(github.event.client_payload.demos) }}'
-
-      # - name: Check out public archives repository
-      #   uses: actions/checkout@v4
-
-      # - name: Commit Database and Metadata
-      #   run: |
-      #     git add -- "*.gzip" "demos/metadata/*.gzip"
-      #     if git diff --cached --quiet; then
-      #       echo "Database and Metadata are already up to date."
-      #     else
-      #       git config user.name "github-actions[bot]"
-      #       git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      #       git commit -m "Update Database and Metadata"
-      #       git push
-      #     fi
+        run: node scripts/handle-notification-event.js "${{ inputs.sender }}" "${{ inputs.demos }}"
