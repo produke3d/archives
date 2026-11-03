@@ -1,5 +1,7 @@
 name: Demo Notification Event
 
+run-name: ${{ inputs.sender }} Demo Notification
+
 on:
 
   workflow_dispatch:
@@ -20,6 +22,8 @@ jobs:
 
   demo-notification-event:
 
+    name: Demo Notification Event
+
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +40,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Handle External Notification Event
         env:
