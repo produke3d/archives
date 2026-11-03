@@ -9,9 +9,11 @@ on:
     inputs:
 
       sender:
-        description: "Notification sender (e.g., 'nukemnet' or 'atomiclauncher')"
+        description: "Notification sender"
         required: true
-        type: string
+        options:
+        - NukemNet
+        - AtomicLauncher
 
       demos:
         description: "JSON array containing demo filenames"
