@@ -11,9 +11,10 @@ on:
       sender:
         description: "Notification sender"
         required: true
+        type: choice
         options:
-        - NukemNet
-        - AtomicLauncher
+          - NukemNet
+          - AtomicLauncher
 
       demos:
         description: "JSON array containing demo filenames"
