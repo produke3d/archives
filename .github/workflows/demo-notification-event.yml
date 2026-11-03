@@ -39,4 +39,7 @@ jobs:
           node-version: 20
 
       - name: Handle External Notification Event
-        run: node scripts/handle-notification-event.js "${{ inputs.sender }}" "${{ inputs.demos }}"
+        env:
+          SENDER: ${{ inputs.sender }}
+          DEMOS: ${{ inputs.demos }}
+        run: node scripts/handle-notification-event.js
