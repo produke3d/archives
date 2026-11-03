@@ -1,4 +1,4 @@
-name: Scripts
+name: Batch File Processing
 
 on:
   push:
@@ -10,9 +10,13 @@ permissions:
   contents: write
 
 jobs:
-  update-database:
+
+  batch-process-demos:
+
     runs-on: ubuntu-latest
+
     steps:
+
       - name: Check out public archives repository
         uses: actions/checkout@v4
 
@@ -30,8 +34,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Process demos
-        run: node scripts/process-demos.js
+      - name: Run Batch Demo Processing Script
+        run: node scripts/batch-process-demos.js
 
       - name: Commit Database and Metadata
         run: |
