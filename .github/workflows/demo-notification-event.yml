@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: 24
 
-      - name: Handle External Notification Event
+      - name: Handle Demo Notification Event
         env:
           SENDER: ${{ inputs.sender }}
           DEMOS: ${{ inputs.demos }}
